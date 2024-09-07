@@ -23,7 +23,7 @@ function RootLaout({ children }) {
       >
         <Header />
         <div className="flex-1 px-8 p-12">
-          <main className="max-w-7xl mx-auto bg-red-500">{children}</main>
+          <main className="max-w-7xl mx-auto ">{children}</main>
         </div>
       </body>
     </html>
