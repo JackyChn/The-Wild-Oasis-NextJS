@@ -19,11 +19,11 @@ function RootLaout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`bg-primary-950 text-primary-100 ${josefin.className} flex flex-col`}
+        className={`bg-primary-950 text-primary-100 ${josefin.className} flex flex-col min-h-screen antialiased`}
       >
         <Header />
-        <div className="flex-1 px-8 p-12">
-          <main className="max-w-7xl mx-auto ">{children}</main>
+        <div className="flex-1 px-8 p-12 grid h-full">
+          <main className="max-w-7xl mx-auto w-full">{children}</main>
         </div>
       </body>
     </html>
