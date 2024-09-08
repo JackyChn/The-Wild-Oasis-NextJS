@@ -1,7 +1,7 @@
 export const metadata = {
   title: "Account",
 };
-function page() {
+function Page() {
   return (
     <h2 className="font-semibold text-2xl text-accent-400 mb-7">
       Welcom, Jacky
@@ -9,4 +9,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

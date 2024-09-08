@@ -1,12 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
 import CabinCard from "../_components/CabinCard";
+import { getCabins } from "../_lib/data-service";
 
 export const metadata = {
   title: "Cabins",
 };
 
-function page() {
-  const cabins = [];
+async function Page() {
+  console.log("Starting...");
+  const cabins = await getCabins();
+  console.log(cabins);
 
   return (
     <div>
@@ -33,4 +36,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

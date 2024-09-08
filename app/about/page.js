@@ -7,7 +7,7 @@ export const metadata = {
   title: "About",
 };
 
-function page() {
+function Page() {
   return (
     <div className="grid grid-cols-5 gap-x-24 gap-y-32 text-lg items-center">
       <div className="col-span-3">
@@ -92,4 +92,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
