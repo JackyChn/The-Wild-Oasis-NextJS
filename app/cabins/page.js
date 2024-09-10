@@ -2,6 +2,7 @@
 import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
+import Filter from "../_components/Filter";
 
 // export const revalidate = 15;
 export const metadata = {
@@ -9,7 +10,8 @@ export const metadata = {
 };
 
 function Page({ searchParams }) {
-  console.log(searchParams);
+  // console.log(searchParams);
+  const capacity = searchParams?.capacity ?? "all";
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -24,8 +26,12 @@ function Page({ searchParams }) {
         to paradise.
       </p>
 
+      <div className="flex justify-end mb-4">
+        <Filter />
+      </div>
+
       <Suspense fallback={<Spinner />}>
-        <CabinList />
+        <CabinList capacity={capacity} />
       </Suspense>
     </div>
   );
