@@ -8,7 +8,8 @@ export const metadata = {
   title: "Cabins",
 };
 
-function Page() {
+function Page({ searchParams }) {
+  console.log(searchParams);
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
