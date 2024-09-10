@@ -4,14 +4,14 @@ import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
 import Filter from "../_components/Filter";
 
-// export const revalidate = 15;
+export const revalidate = 0;
 export const metadata = {
   title: "Cabins",
 };
 
 function Page({ searchParams }) {
   // console.log(searchParams);
-  const capacity = searchParams?.capacity ?? "all";
+  const filter = searchParams?.capacity ?? "all";
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -30,8 +30,8 @@ function Page({ searchParams }) {
         <Filter />
       </div>
 
-      <Suspense fallback={<Spinner />}>
-        <CabinList capacity={capacity} />
+      <Suspense fallback={<Spinner />} key={filter}>
+        <CabinList capacity={filter} />
       </Suspense>
     </div>
   );
