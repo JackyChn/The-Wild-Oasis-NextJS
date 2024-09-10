@@ -11,7 +11,7 @@ export const metadata = {
 
 function Page({ searchParams }) {
   // console.log(searchParams);
-  const filter = searchParams?.capacity ?? "all";
+  const filter = searchParams?.capacity ?? "all"; // make sense, caz initially url doesn't has capacity and page should display all cabins
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
