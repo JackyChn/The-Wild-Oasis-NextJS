@@ -67,13 +67,13 @@ export async function updateReservation(formData) {
   const session = await auth();
   if (!session) throw new Error("Please login first");
 
-  const bookingId = formData.get("bookingId");
+  const bookingId = Number(formData.get("bookingId"));
   const numGuests = formData.get("numGuests");
   const observations = formData.get("observations");
 
   const updateData = { numGuests, observations };
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("bookings")
     .update(updateData)
     .eq("id", bookingId)
@@ -81,6 +81,8 @@ export async function updateReservation(formData) {
 
   if (error) {
     console.error(error);
-    throw new Error("User profile fails to be updated...");
+    throw new Error("Reservation fails to be updated...");
   }
+
+  revalidatePath(`/account/reservations/edit/${bookingId}`);
 }
