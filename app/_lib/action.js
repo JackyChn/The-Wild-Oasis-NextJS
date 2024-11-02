@@ -62,3 +62,26 @@ export async function deleteReservation(bookingId) {
 
   revalidatePath("/account/reservations");
 }
+
+export async function updateReservation(formData) {
+  const session = await auth();
+  if (!session) throw new Error("Please login first");
+
+  console.log("formData: ", formData);
+
+  const bookingId = formData.get("bookingId");
+  const numGuests = formData.get("numGuests");
+  const observations = formData.get("observations");
+  const updateData = { numGuests, observations };
+
+  const { data, error } = await supabase
+    .from("bookings")
+    .update(updateData)
+    .eq("id", bookingId)
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("User profile fails to be updated...");
+  }
+}
