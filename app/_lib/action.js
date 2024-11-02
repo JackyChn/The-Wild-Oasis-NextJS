@@ -14,7 +14,7 @@ export async function signOutAction() {
 
 export async function updateGuest(formData) {
   const session = await auth();
-  if (!session) throw new Error("You must login first");
+  if (!session) throw new Error("Please login first");
 
   const nationalID = formData.get("nationalID");
   const [nationality, countryFlag] = formData.get("nationality").split("%");
@@ -34,4 +34,19 @@ export async function updateGuest(formData) {
   }
 
   revalidatePath("/account/profile");
+}
+
+export async function deleteReservation(bookingId) {
+  const session = await auth();
+  if (!session) throw new Error("Please login first");
+
+  const { error } = await supabase
+    .from("bookings")
+    .delete()
+    .eq("id", bookingId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be deleted");
+  }
 }
