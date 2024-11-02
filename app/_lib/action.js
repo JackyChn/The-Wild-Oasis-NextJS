@@ -38,6 +38,8 @@ export async function updateGuest(formData) {
 }
 
 export async function deleteReservation(bookingId) {
+  await new Promise((res) => setTimeout(res, 1000)); // make up some delay
+
   const session = await auth();
   if (!session) throw new Error("Please login first");
 
