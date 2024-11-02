@@ -3,12 +3,8 @@ import { getBooking, getCabin } from "@/app/_lib/data-service";
 
 export default async function Page({ params }) {
   const reservationId = params.bookingId;
-  const reservation = await getBooking(reservationId);
-  const numGuests = await reservation.numGuests;
-  const observations = await reservation.observations;
-  const cabinId = await reservation.cabinId;
-  const cabin = await getCabin(cabinId);
-  const maxCapacity = await cabin.maxCapacity;
+  const { numGuests, observations, cabinId } = await getBooking(reservationId);
+  const { maxCapacity } = await getCabin(cabinId);
 
   return (
     <div>

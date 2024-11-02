@@ -4,8 +4,6 @@ import { auth } from "@/app/_lib/auth";
 import { getGuest } from "@/app/_lib/data-service";
 
 export default async function Page() {
-  const nationality = "portugal";
-
   const session = await auth();
   const guest = await getGuest(session?.user?.email);
 

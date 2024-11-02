@@ -67,11 +67,10 @@ export async function updateReservation(formData) {
   const session = await auth();
   if (!session) throw new Error("Please login first");
 
-  console.log("formData: ", formData);
-
   const bookingId = formData.get("bookingId");
   const numGuests = formData.get("numGuests");
   const observations = formData.get("observations");
+
   const updateData = { numGuests, observations };
 
   const { data, error } = await supabase
