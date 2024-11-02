@@ -49,4 +49,6 @@ export async function deleteReservation(bookingId) {
     console.error(error);
     throw new Error("Booking could not be deleted");
   }
+
+  revalidatePath("/account/reservations");
 }
