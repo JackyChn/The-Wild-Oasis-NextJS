@@ -3,7 +3,12 @@
 import { updateReservation } from "../_lib/action";
 import FormButton from "./FormButton";
 
-function UpdateReservationForm({ maxCapacity, reservationId }) {
+function UpdateReservationForm({
+  numGuests,
+  observations,
+  maxCapacity,
+  reservationId,
+}) {
   return (
     <form
       action={updateReservation}
@@ -17,6 +22,7 @@ function UpdateReservationForm({ maxCapacity, reservationId }) {
         <select
           name="numGuests"
           id="numGuests"
+          defaultValue={numGuests}
           className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
           required
         >
@@ -37,6 +43,7 @@ function UpdateReservationForm({ maxCapacity, reservationId }) {
         </label>
         <textarea
           name="observations"
+          defaultValue={observations}
           className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
         />
       </div>
