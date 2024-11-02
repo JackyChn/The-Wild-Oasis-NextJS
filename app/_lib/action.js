@@ -29,6 +29,6 @@ export async function updateGuest(formData) {
 
   if (error) {
     console.error(error);
-    throw new Error("Guest could not be updated");
+    throw new Error("User profile fails to be updated...");
   }
 }
