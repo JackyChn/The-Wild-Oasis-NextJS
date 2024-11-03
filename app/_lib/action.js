@@ -37,7 +37,55 @@ export async function updateGuest(formData) {
   revalidatePath("/account/profile");
 }
 
-export async function deleteReservation(bookingId) {
+export async function createBooking(bookingData, formData) {
+  const session = await auth();
+  if (!session) throw new Error("Please login first");
+
+  const newBooking = {
+    ...bookingData,
+    guestId: session.user.guestId,
+    numGuests: Number(formData.get("numGuests")),
+    observations: formData.get("observations"),
+    extrasPrice: 0,
+    totalPrice: bookingData.cabinPrice,
+    isPaid: false,
+    hasBreakfast: false,
+    status: "unconfirmed",
+  };
+
+  const { error } = await supabase.from("bookings").insert([newBooking]);
+  if (error) throw new Error("Booking could not be created");
+
+  revalidatePath(`/cabins/${bookingData.cabinId}`);
+
+  redirect("/cabins/thankyou");
+}
+
+export async function updateBooking(formData) {
+  const session = await auth();
+  if (!session) throw new Error("Please login first");
+
+  const bookingId = Number(formData.get("bookingId"));
+  const numGuests = formData.get("numGuests");
+  const observations = formData.get("observations");
+
+  const updateData = { numGuests, observations };
+
+  const { error } = await supabase
+    .from("bookings")
+    .update(updateData)
+    .eq("id", bookingId)
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Reservation fails to be updated...");
+  }
+
+  revalidatePath(`/account/reservations/edit/${bookingId}`);
+}
+
+export async function deleteBooking(bookingId) {
   await new Promise((res) => setTimeout(res, 1000)); // make up some delay
 
   const session = await auth();
@@ -63,28 +111,4 @@ export async function deleteReservation(bookingId) {
   }
 
   revalidatePath("/account/reservations");
-}
-
-export async function updateReservation(formData) {
-  const session = await auth();
-  if (!session) throw new Error("Please login first");
-
-  const bookingId = Number(formData.get("bookingId"));
-  const numGuests = formData.get("numGuests");
-  const observations = formData.get("observations");
-
-  const updateData = { numGuests, observations };
-
-  const { error } = await supabase
-    .from("bookings")
-    .update(updateData)
-    .eq("id", bookingId)
-    .select();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Reservation fails to be updated...");
-  }
-
-  revalidatePath(`/account/reservations/edit/${bookingId}`);
 }

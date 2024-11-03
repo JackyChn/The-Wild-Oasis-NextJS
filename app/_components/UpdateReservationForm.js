@@ -1,6 +1,6 @@
 "use client";
 
-import { updateReservation } from "../_lib/action";
+import { updateBooking } from "../_lib/action";
 import FormButton from "./FormButton";
 
 function UpdateReservationForm({
@@ -11,7 +11,7 @@ function UpdateReservationForm({
 }) {
   return (
     <form
-      action={updateReservation}
+      action={updateBooking}
       className="bg-primary-900 py-8 px-12 text-lg flex gap-6 flex-col"
     >
       {/* Hidden input field for reservationId */}

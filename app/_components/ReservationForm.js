@@ -1,11 +1,29 @@
 "use client";
 
+import { differenceInDays } from "date-fns";
 import { useReservation } from "../contexts/ReservationsContext";
+import { createBooking } from "../_lib/action";
+import { useFormStatus } from "react-dom";
 
 function ReservationForm({ cabin, user }) {
-  const { range } = useReservation();
-  // CHANGE
-  const { maxCapacity } = cabin;
+  const { range, resetRange } = useReservation();
+
+  const { maxCapacity, regularPrice, discount, id } = cabin;
+
+  const startDate = range.from;
+  const endDate = range.to;
+  const numNights = differenceInDays(endDate, startDate);
+  const cabinPrice = numNights * (regularPrice - discount);
+
+  const bookingData = {
+    startDate,
+    endDate,
+    numNights,
+    cabinPrice,
+    cabinId: id,
+  };
+
+  const createBookingWithData = createBooking.bind(null, bookingData);
 
   return (
     <div className="scale-[1]">
@@ -29,7 +47,15 @@ function ReservationForm({ cabin, user }) {
         {String(range?.to) === undefined ? String(range?.from) : ""}
       </p>
 
-      <form className="bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col">
+      <form
+        action={async () => {
+          await createBookingWithData;
+          resetRange();
+        }}
+        className="bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col"
+      >
+        {/* <input type="hidden" name="bookingDate" value={bookingData} /> */}{" "}
+        {/* This won't work caz value can only carries a string not an object */}
         <div className="space-y-2">
           <label htmlFor="numGuests">How many guests?</label>
           <select
@@ -48,7 +74,6 @@ function ReservationForm({ cabin, user }) {
             ))}
           </select>
         </div>
-
         <div className="space-y-2">
           <label htmlFor="observations">
             Anything we can do for your stay?
@@ -60,16 +85,25 @@ function ReservationForm({ cabin, user }) {
             placeholder="Any pets, allergies, special requirements, etc.?"
           />
         </div>
-
         <div className="flex justify-end items-center gap-6">
           <p className="text-primary-300 text-base">Start by selecting dates</p>
 
-          <button className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300">
-            Reserve now
-          </button>
+          <ReserveButton />
         </div>
       </form>
     </div>
+  );
+}
+
+function ReserveButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      disabled={pending}
+      className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
+    >
+      {pending ? "Reserving..." : "Reserve now"}
+    </button>
   );
 }
 

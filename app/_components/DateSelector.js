@@ -36,10 +36,13 @@ function DateSelector({ settings, bookedDates, cabin }) {
       <DayPicker
         className="pt-12 place-self-center"
         mode="range"
-        onSelect={setRange} // call back function like normal handle func
-        selected={displayRange} // need to pass in the date range in order to render the range to show on UI
-        min={minBookingLength}
+        onSelect={setRange}
+        selected={displayRange}
+        min={minBookingLength + 1}
         max={maxBookingLength}
+        fromMonth={new Date()}
+        fromDate={new Date()}
+        toYear={new Date().getFullYear() + 5}
         captionLayout="dropdown"
         numberOfMonths={2}
         disabled={(curDate) =>
